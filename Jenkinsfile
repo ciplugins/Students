@@ -2,9 +2,18 @@ pipeline {
   agent any
   stages {
     stage('Checkout') {
-      steps {
-        echo 'Checking out...'
-        echo 'Checked out'
+      parallel {
+        stage('Checkout') {
+          steps {
+            echo 'Checking out...'
+            echo 'Checked out'
+          }
+        }
+        stage('Clone') {
+          steps {
+            git(url: 'https://github.com/ciplugins/Students.git', branch: 'master')
+          }
+        }
       }
     }
     stage('Build') {
